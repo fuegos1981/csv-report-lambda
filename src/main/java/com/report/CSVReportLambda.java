@@ -36,7 +36,7 @@ public class CSVReportLambda implements RequestHandler<Map<String, Object>, Stri
             csvData.add(new String[]{"Trainer First Name", "Trainer Last Name", "Training Duration (hours)"});
 
             LocalDate today = LocalDate.now();
-            String currentMonth = today.getMonth().name(); // Normalize to uppercase
+            String currentMonth = today.getMonth().name();
             int currentYear = today.getYear();
 
             ScanRequest scanRequest = ScanRequest.builder().tableName(DYNAMODB_TABLE).build();
