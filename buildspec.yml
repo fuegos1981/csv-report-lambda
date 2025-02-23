@@ -16,7 +16,7 @@ phases:
       - echo "Checking lambda directory..."
       - ls -la lambda/
       - echo "Packaging Lambda function..."
-      - sam package --output-template-file packaged.yaml --s3-bucket olena-sinkevych-bucket3
+      - sam package --output-template-file packaged.yaml --s3-bucket olena-sinkevych-bucket3 --region us-east-1
 
   post_build:
     commands:
