@@ -12,7 +12,7 @@ phases:
       - echo "Listing target directory..."
       - ls -la target/
       - mkdir -p lambda
-      - cp target/*-shaded.jar lambda/csv-report-lambda.jar
+      - cp target/csv-report-lambda-1.0-SNAPSHOT.jar lambda/csv-report-lambda.jar
       - echo "Checking lambda directory..."
       - ls -la lambda/
       - echo "Packaging Lambda function..."
