@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambda-reports
+
+  Sample SAM Template for lambda-reports
+
+Globals:
+  Function:
+    Timeout: 3
+    LoggingConfig:
+      LogFormat: JSON
+      LogGroup: /aws/lambda/lambda-reports
+      ApplicationLogLevel: INFO
+
+Resources:
+  Table:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "trainers"
+
+  PutFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./lambda/csw-report-lambda-1.0-SNAPSHOT.jar
+      Handler: com.report.CSVReportLambda::handleRequest
+      Runtime: java11
+      MemorySize: 1024
+      Timeout: 10
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /{id}
+            Method: put
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref Table
+          S3_BUCKET: "olena-sinkevych-bucket3"
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref Table
+        - S3WritePolicy:
+            BucketName: "olena-sinkevych-bucket3"
+
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "olena-sinkevych-bucket3"
+
+Outputs:
+  PutApi:
+    Description: API Gateway endpoint URL for Prod stage for Put function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/"
+  PutFunction:
+    Description: Put Lambda Function ARN
+    Value: !GetAtt PutFunction.Arn
+  PutTable:
+    Description: DynamoDB table name
+    Value: !GetAtt Table.Arn
+  S3BucketName:
+    Description: S3 Bucket Name
+    Value: !Ref S3Bucket
