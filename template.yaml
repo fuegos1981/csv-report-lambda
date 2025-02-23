@@ -22,7 +22,7 @@ Resources:
   PutFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./lambda/csw-report-lambda-1.0-SNAPSHOT.jar
+      CodeUri: lambda/
       Handler: com.report.CSVReportLambda::handleRequest
       Runtime: java11
       MemorySize: 1024
