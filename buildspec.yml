@@ -6,12 +6,16 @@ phases:
       java: java21
     commands:
       - echo "Installing dependencies"
-      - mvn install
+      - mvn clean package
   build:
     commands:
-      - echo "Building the Java project"
-      - mvn package
-      - echo "Packaging Lambda function with SAM"
+      - echo "Listing target directory..."
+      - ls -la target/
+      - mkdir -p lambda
+      - cp target/*-shaded.jar lambda/csv-report-lambda.jar
+      - echo "Checking lambda directory..."
+      - ls -la lambda/
+      - echo "Packaging Lambda function..."
       - sam package --output-template-file packaged.yaml --s3-bucket olena-sinkevych-bucket3
 
   post_build:
